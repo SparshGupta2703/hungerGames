@@ -9,7 +9,7 @@ export const signup=async(data)=>{
     },
     body: JSON.stringify(data)
    })
-   return await res.json;
+   return await res.json();
 
 }
 

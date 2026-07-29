@@ -2,12 +2,14 @@ import { loginUser, signupUser } from "../services/authService.js"
 
 export const signup =async(req,res)=>{
  try{
-    const user =await signupUser(req.body)
- res.status(201).json({
-    success:true,
-    message:'user registered successfully',
-    ...user
-   })  
+  const data = await signupUser(req.body);
+
+res.status(201).json({
+    success: true,
+    message: "Account created successfully",
+    token: data.token,
+    user: data.user
+});
 
  }
  catch(err){
@@ -20,12 +22,14 @@ export const signup =async(req,res)=>{
 }
 export const login=async(req,res)=>{
    try {
-      const userData =await loginUser(req.body)
+      const data = await loginUser(req.body);
+
       res.status(200).json({
-         success:true,
-         message:'user login success',
-         ...userData
-      })
+         success: true,
+         message: "Login successful",
+         token: data.token,
+         user: data.user
+});
       
    } catch (err) {
       res.status(400).json({

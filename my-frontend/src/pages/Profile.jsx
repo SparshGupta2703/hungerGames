@@ -1,90 +1,244 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
+import { useAuthStore } from "../stores/AuthStore";
+import { updateProfile } from "../api/Profile";
 
-import { useAuthStore } from "../stores/AuthStore"
-import { updateProfile } from "../api/Profile"
+const Profile = () => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
+  const [userData, setUserData] = useState({
+    userId: "",
+    name: "",
+    userImg: "",
+    userDesc: "",
+    image: null,
+  });
 
-const Profile=()=>{
-  const[isEditing,setIsEditing]=useState(false)
-  //  const[updateData,setUpdateData]=useState({})
-   const[userData,setUserData]=useState({
-            userId:"",
-            name:"",
-            userImg:"",
-            userDesc:""
-  })
-  
-  const {token,user,updateUser}=useAuthStore()
-  
-  
-  
- 
-  useEffect(()=>{
-     if(user){
-        setUserData(user)
-     }
-    
-  },[user])
+  const { user, updateUser } = useAuthStore();
 
-  const handleSave=async()=>{
-    updateProfile(userData)
-    await updateUser(userData)
-    setIsEditing(false)
+  useEffect(() => {
+    if (user) {
+      setUserData(user);
+    }
+  }, [user]);
 
-  
+  const handleChange = (e) => {
+    setUserData({
+      ...userData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    setSelectedImage(file);
+
+    setUserData((prev) => ({
+      ...prev,
+      image: file,
+      userImg: URL.createObjectURL(file),
+    }));
+  };
+
+  const handleSave = async () => {
+  try {
+    setLoading(true);
+
+    const formData = new FormData();
+
+    formData.append("name", userData.name);
+    formData.append("userDesc", userData.userDesc);
+
+    if (selectedImage) {
+      formData.append("image", selectedImage);
+    }
+
+    const response = await updateProfile(formData);
+
+    if (response.success) {
+      updateUser(response.updatedUser);
+      setUserData(response.updatedUser);
+      setSelectedImage(null);
+      setIsEditing(false);
+    }
+  } catch (err) {
+    console.log(err);
+  } finally {
+    setLoading(false);
   }
+};
 
-  const handleChange=(e)=>{
-       setUserData({...userData,[e.target.name]:e.target.value})}
- 
- 
-  
+  return (
+    <div className="min-h-screen bg-base-200 flex justify-center items-center p-6">
+      <div className="card bg-base-100 shadow-2xl w-full max-w-4xl">
+        <div className="card-body">
 
-    return (
-     isEditing
-     ?
-     <div className="hero bg-base-200 min-h-screen">
-  <div className="hero-content flex-col lg:flex-row">
-    <img
-      src={userData.userImg} alt="Profile"
-      className="max-w-sm rounded-lg shadow-2xl"
-    />
-    <div>
-      <h1 className="text-5xl font-bold">Profile</h1>
-      <label className="label">Name</label>
-      <p><input  type="text" className="input"  name="name" value={userData.name} onChange={handleChange}/></p>
-      <label className="label">Desc</label>
-      <input  type="text" className="input"  name="userDesc" value={userData.userDesc} onChange={handleChange}/>
-      
-      <button className="btn btn-primary" onClick={() => handleSave(userData)}>Save</button>
-      
+          {/* Profile Image */}
+
+          <div className="flex justify-center">
+            <div className="relative">
+
+              <img
+                src={userData.userImg}
+                alt="Profile"
+                className="w-40 h-40 rounded-full object-cover border-4 border-primary shadow-lg"
+              />
+
+              {isEditing && (
+                <>
+                  <label
+                    htmlFor="profileImage"
+                    className="absolute bottom-2 right-2 btn btn-circle btn-primary btn-sm cursor-pointer"
+                  >
+                    📷
+                  </label>
+
+                  <input
+                    id="profileImage"
+                    type="file"
+                    accept="image/*"
+                    hidden
+                    onChange={handleImageChange}
+                  />
+                </>
+              )}
+
+            </div>
+          </div>
+
+          {/* Title */}
+
+          <div className="text-center mt-4">
+            <h1 className="text-4xl font-bold">
+              {isEditing ? "Edit Profile" : "Profile"}
+            </h1>
+
+            <p className="opacity-70 mt-2">
+              {user?.userEmail}
+            </p>
+          </div>
+
+          <div className="divider"></div>
+
+          {isEditing ? (
+            <div className="space-y-5">
+
+              <div>
+                <label className="label">
+                  <span className="label-text font-semibold">
+                    Name
+                  </span>
+                </label>
+
+                <input
+                  type="text"
+                  name="name"
+                  className="input input-bordered w-full"
+                  value={userData.name}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div>
+                <label className="label">
+                  <span className="label-text font-semibold">
+                    About Me
+                  </span>
+                </label>
+
+                <textarea
+                  rows={4}
+                  name="userDesc"
+                  className="textarea textarea-bordered w-full"
+                  value={userData.userDesc}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="flex justify-end gap-3 mt-6">
+
+                <button
+                  className="btn btn-outline"
+                  onClick={() => {
+                    setUserData(user);
+                    setSelectedImage(null);
+                    setIsEditing(false);
+                  }}
+                >
+                  Cancel
+                </button>
+
+                 <button
+                    className="btn btn-primary"
+                    onClick={handleSave}
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <>
+                        <span className="loading loading-spinner loading-sm"></span>
+                        Saving...
+                      </>
+                    ) : (
+                      "Save Changes"
+                    )}
+                 </button>
+
+              </div>
+
+            </div>
+          ) : (
+            <div className="space-y-6">
+
+              <div className="card bg-base-200">
+                <div className="card-body">
+
+                  <h2 className="card-title">
+                    👤 Name
+                  </h2>
+
+                  <p className="text-lg">
+                    {userData.name}
+                  </p>
+
+                </div>
+              </div>
+
+              <div className="card bg-base-200">
+                <div className="card-body">
+
+                  <h2 className="card-title">
+                    📝 About Me
+                  </h2>
+
+                  <p className="opacity-80 whitespace-pre-wrap">
+                    {userData.userDesc || "No description added yet."}
+                  </p>
+
+                </div>
+              </div>
+
+              <div className="flex justify-end">
+
+                <button
+                  className="btn btn-primary"
+                  onClick={() => setIsEditing(true)}
+                >
+                  Edit Profile
+                </button>
+
+              </div>
+
+            </div>
+          )}
+
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-     
-     :
-     <div className="hero bg-base-200 min-h-screen">
-  <div className="hero-content flex-col lg:flex-row">
-    <img
-      src={user.userImg} alt="Profile"
-      className="max-w-sm rounded-lg shadow-2xl"
-    />
-    <div>
-      <h1 className="text-5xl font-bold">Profile</h1>
-      <label className="label">Name</label>
-     <p><span>{userData.name}</span></p>
-     <label className="label">Desc</label>
-    <p><span>{userData.userDesc}</span></p> 
-     <button className="btn btn-primary" onClick={()=>setIsEditing(true)}>update</button>
+  );
+};
 
-      
-    </div>
-  </div>
-</div>
-   
-  
-      
-       
-    )
-}
-export default Profile
+export default Profile;

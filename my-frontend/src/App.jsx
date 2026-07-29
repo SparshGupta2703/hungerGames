@@ -1,38 +1,57 @@
-import { Route, Routes } from "react-router-dom"
-import Landing from "./pages/Landing"
-import Layout from "./layout/Layout"
-import Home from "./pages/Home"
-import Signup from "./pages/Signup"
-import Login from "./pages/Login"
-import Profile from "./pages/Profile"
-import CreateGroup from "./pages/CreateGroup"
-import JoinGroup from "./pages/JoinGroup"
-import GroupFeed from "./pages/GroupFeed"
-import ProtectedRoutes from "./components/ProtectedRoutes"
-import PublicRoutes from "./components/PublicRoutes"
+import { Routes, Route, Navigate } from "react-router-dom";
 
+import Landing from "./pages/Landing";
+import Home from "./pages/Home";
+import Profile from "./pages/Profile";
+import CreateGroup from "./pages/CreateGroup";
+import JoinGroup from "./pages/JoinGroup";
+import GroupFeed from "./pages/GroupFeed";
 
-const App=()=>{
-    return (
-        <>
-        <Routes>
-            <Route  path="/landing" element={<PublicRoutes><Landing/></PublicRoutes>}/>
-            <Route path="/" element={<Layout/>}>
-                
-                <Route path="/Home" element={<ProtectedRoutes><Home/></ProtectedRoutes>}/>
-                <Route path="/Signup" element={<PublicRoutes><Signup/></PublicRoutes>}/>
-                <Route path="/Login" element={<PublicRoutes><Login/></PublicRoutes>}/>
-                <Route path="/Profile" element={<ProtectedRoutes><Profile/></ProtectedRoutes>}/>
-                <Route path="/CreateGroup" element={<ProtectedRoutes><CreateGroup/></ProtectedRoutes>}/>
-                <Route path="/JoinGroup" element={<ProtectedRoutes><JoinGroup/></ProtectedRoutes>}/>
-                <Route path="/GroupFeed" element={<ProtectedRoutes><GroupFeed/></ProtectedRoutes>}/>
-              
-               
-            
-            </Route>
+import Layout from "./layout/Layout";
 
-        </Routes>
-        </>
-    )
+import ProtectedRoutes from "./components/ProtectedRoutes";
+import PublicRoutes from "./components/PublicRoutes";
+
+function App() {
+  return (
+    <Routes>
+
+      {/* Public */}
+
+      <Route
+        path="/"
+        element={
+          <PublicRoutes>
+            <Landing />
+          </PublicRoutes>
+        }
+      />
+
+      {/* Protected */}
+
+      <Route
+        element={
+          <ProtectedRoutes>
+            <Layout />
+          </ProtectedRoutes>
+        }
+      >
+        <Route path="/home" element={<Home />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/create-group" element={<CreateGroup />} />
+        <Route path="/join-group" element={<JoinGroup />} />
+        <Route path="/group-feed" element={<GroupFeed />} />
+      </Route>
+
+      {/* Unknown */}
+
+      <Route
+        path="*"
+        element={<Navigate to="/" replace />}
+      />
+
+    </Routes>
+  );
 }
-export default App
+
+export default App;

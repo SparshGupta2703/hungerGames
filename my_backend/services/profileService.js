@@ -10,19 +10,29 @@ export const getUserProfile =async(userId)=>{
      return user
 
 }
-export const updateUserProfile=async(userId,updates)=>{
-    const allowedUpdates={}
-    if(updates.userName) allowedUpdates.name=updates.name
-    if(updates.userImg) allowedUpdates.userImg= updates.userImg
-    if(updates.userDesc) allowedUpdates.userDesc=updates.userDesc
+export const updateUserProfile = async (userId, updates) => {
+    const allowedUpdates = {};
 
-    const updateUser = await findUserByIdAndUpdate(userId,allowedUpdates,{new:true})
+    if (updates.name !== undefined)
+        allowedUpdates.name = updates.name;
 
-    if(!updateUser){
-        throw new Error('user not found')
+    if (updates.userImg !== undefined)
+        allowedUpdates.userImg = updates.userImg;
+
+    if (updates.userDesc !== undefined)
+        allowedUpdates.userDesc = updates.userDesc;
+
+    const updatedUser = await findUserByIdAndUpdate(
+        userId,
+        allowedUpdates
+    );
+
+    if (!updatedUser) {
+        throw new Error("User not found");
     }
-    return updateUser
-}
+
+    return updatedUser;
+};
 export const changePassword =async(userId ,oldPassword ,newPassword)=>{
     const user=await findUserByIdWithPassword(userId)
     if(!user){

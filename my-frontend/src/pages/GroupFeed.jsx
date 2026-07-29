@@ -5,15 +5,21 @@ import { useAuthStore } from "../stores/AuthStore";
 import GroupPanel from "../components/groupFeedComponents/GroupPanel";
 import Sidebar from "../components/groupFeedComponents/Sidebar";
 import Leaderboard from "../components/groupFeedComponents/LeaderBoard"
+import { useLocation } from "react-router-dom";
 const GroupFeed = () => {
     const [selectedGroup, setSelectedGroup] = useState(null);
     const [joinedGroups, setJoinedGroups] = useState([]);
     const [inviteGroups, setInviteGroups] = useState([]);
     const [refreshLeaderboard, setRefreshLeaderboard] = useState(0);
-    
+    const [loading, setLoading] = useState(true);
 
     const { user } = useAuthStore();
+    const { state } = useLocation();
 
+  const groupId = state?.groupId;
+
+
+  
     const handleAccept = async (groupId) => {
     const res = await acceptInvite({ groupId });
 
@@ -35,29 +41,40 @@ const handleReject = async (groupId) => {
     }
 };
 
-    useEffect(() => {
-        const fetchGroups = async () => {
-            const joined = await findJoinedGroups();
-            const invites = await pendingInvites();
+   useEffect(() => {
+    const fetchGroups = async () => {
+        const joined = await findJoinedGroups();
+        const invites = await pendingInvites();
 
-            setJoinedGroups(joined.user || []);
-            
-            setInviteGroups(invites.user || []);
-            
-        };
+        const joinedList = joined.user || [];
+        const inviteList = invites.user || [];
 
-        if (user) {
-            fetchGroups();
+        setJoinedGroups(joinedList);
+        setInviteGroups(inviteList);
+
+        if (groupId) {
+            const current = joinedList.find(g => g._id === groupId);
+            if (current) {
+                setSelectedGroup(current);
+            }
+        } else if (joinedList.length > 0) {
+            setSelectedGroup(joinedList[0]);
         }
-    }, [user]);
-    useEffect(() => {
-    console.log("Joined Groups:", joinedGroups);
-}, [joinedGroups]);
+    };
 
-useEffect(() => {
-    console.log("Invite Groups:", inviteGroups);
-}, [inviteGroups]);
+    if (user) {
+        fetchGroups();
+        setLoading(false);
+    }
+}, [user, groupId]);
 
+    if (loading) {
+    return (
+        <div className="flex justify-center items-center h-screen">
+            <span className="loading loading-spinner loading-lg"></span>
+        </div>
+    );
+}
     return (
       <div className="flex h-screen">
 

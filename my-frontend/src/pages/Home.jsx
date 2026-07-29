@@ -1,40 +1,99 @@
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { findJoinedGroups } from "../api/Group";
 
 const Home = () => {
+  const [groups, setGroups] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchGroups = async () => {
+      try {
+        const result = await findJoinedGroups();
+
+        console.log(result);
+
+        if (result.success) {
+          setGroups(result.user || []);
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGroups();
+  }, []);
+
+  if (loading) {
     return (
-        <div className="min-h-[calc(100vh-64px)] flex flex-col items-center px-6 py-10 bg-base-100">
-
-            {/* Hero / Carousel Section */}
-            <div className="w-full max-w-6xl h-[420px] rounded-3xl border-2 border-dashed border-base-300 bg-base-200 flex items-center justify-center shadow-lg">
-
-                {/* Replace this with DaisyUI Carousel */}
-                <h2 className="text-2xl font-semibold text-base-content/50">
-                    Carousel goes here
-                </h2>
-
-            </div>
-
-            {/* Buttons */}
-            <div className="mt-12 flex gap-6">
-
-                <Link
-                    to="/CreateGroup"
-                    className="btn btn-primary btn-lg rounded-full px-10"
-                >
-                    Create Group
-                </Link>
-
-                <Link
-                    to="/GroupFeed"
-                    className="btn btn-outline btn-lg rounded-full px-10"
-                >
-                    My Groups
-                </Link>
-
-            </div>
-
-        </div>
+      <div className="flex justify-center items-center h-screen">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
     );
+  }
+
+  return (
+    <div className="max-w-4xl mx-auto p-6">
+
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">My Groups</h1>
+
+        <div className="flex gap-2">
+          <button
+            className="btn btn-primary"
+            onClick={() => navigate("/create-group")}
+          >
+            Create Group
+          </button>
+
+          <button
+            className="btn btn-outline"
+            onClick={() => navigate("/join-group")}
+          >
+            Join Group
+          </button>
+        </div>
+      </div>
+
+      {groups.length === 0 ? (
+        <div className="text-center mt-20">
+          <p className="text-lg">You haven't joined any groups yet.</p>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {groups.map((group) => (
+            <div
+              key={group._id}
+              className="card bg-base-200 shadow"
+            >
+              <div className="card-body">
+                <h2 className="card-title">{group.name}</h2>
+
+                <button
+                  className="btn btn-primary btn-sm w-fit"
+                  onClick={() =>
+  navigate("/group-feed", {
+    state: {
+      groupId: group._id,
+      groupName: group.name,
+    },
+  })
+}
+                >
+                  Open Group
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+    </div>
+  );
 };
 
 export default Home;

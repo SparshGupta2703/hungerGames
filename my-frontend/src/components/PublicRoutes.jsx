@@ -4,7 +4,7 @@ import { useAuthStore } from "../stores/AuthStore"
 const PublicRoutes=({children})=>{
   const {token}=useAuthStore()
   if(token){
-    return<Navigate to='/'/>
+   return <Navigate to="/home" replace />;
   }
   return children;
   

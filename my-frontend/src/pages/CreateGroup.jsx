@@ -1,86 +1,78 @@
-import {  useState } from "react"
-import { useAuthStore } from "../stores/AuthStore"
-import { createGroup } from "../api/Group"
-import { useNavigate } from "react-router-dom"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { createGroup } from "../api/Group";
+import toast from "react-hot-toast";
 
-const CreateGroup=()=>{
-const[loading,setLoading]=useState(false)
- const[groupData,setGroupData]=useState({
-    name:'',
-   
- })
-const {user}=useAuthStore()
-console.log("use rin creategroupjsx", user)
-const handleChange=(e)=>{
-   
-       setGroupData({...groupData,[e.target.name]:e.target.value})
-}
-const navigate=useNavigate()
-const handleSubmit = async () => {
-  console.log(groupData);
+const CreateGroup = () => {
+  const navigate = useNavigate();
 
-  try {
-    setLoading(true)
-    const res = await createGroup(groupData);
-   
-    console.log(res);
-    // await navigate('/GroupFeed')
+  const [name, setName] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  } catch (err) {
-    console.error(err);
-  }
-  finally{
-    setLoading(false)
-    await navigate('/GroupFeed')
-  }
-};
-// useEffect(() => {
-//   if (user) {
-//     setGroupData(prev => ({
-//       ...prev,
-//       owner: user.name,
-//     }));
-//   }
-// }, [user]);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
+    if (!name.trim()) {
+      return toast.error("Enter group name");
+    }
 
+    try {
+      setLoading(true);
 
-    return (
-        <a href="#" className="hover-3d my-12 mx-2 cursor-pointer">
-  
-  {/* content */}
-  <div className="card w-96 bg-black text-white bg-[radial-gradient(circle_at_bottom_left,#ffffff04_35%,transparent_36%),radial-gradient(circle_at_top_right,#ffffff04_35%,transparent_36%)] bg-size-[4.95em_4.95em]">
-    <div className="card-body">
-      <div className="flex justify-between mb-10">
-        <div className="font-bold">Create Group</div>
-        <div className="text-5xl opacity-10">❁</div>
-      </div>
-      <div className="text-lg mb-4 opacity-40"><label>group name   </label>
-      <input type="text" name="name" value={groupData.name} placeholder="enter here" onChange={handleChange}/></div>
-      <div className="flex justify-between">
-        <div>
-          <div className="text-xs opacity-20">GROUP MALIK</div>
-          <div><span>{user.name}</span></div>
+      const res = await createGroup({ name });
+
+      if (res.success) {
+        toast.success(res.message);
+        navigate("/home");
+      } else {
+        toast.error(res.message);
+      }
+    } catch (err) {
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-[85vh] flex justify-center items-center">
+
+      <div className="card bg-base-200 w-full max-w-md shadow-xl">
+
+        <div className="card-body">
+
+          <h2 className="card-title text-3xl mb-4">
+            Create Group
+          </h2>
+
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-4"
+          >
+
+            <input
+              type="text"
+              placeholder="Group Name"
+              className="input input-bordered w-full"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+
+            <button
+              className="btn btn-primary w-full"
+              disabled={loading}
+            >
+              {loading ? "Creating..." : "Create Group"}
+            </button>
+
+          </form>
+
         </div>
-        <div>
-          
-          <div>29/08</div>
-        </div>
+
       </div>
+
     </div>
-  </div>
-  
-  {/* 8 empty divs needed for the 3D effect */}
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div className=""><button className="btn btn-soft btn-secondary " disabled={loading} onClick={handleSubmit}>Create</button></div>
-</a>
-    )
-}
-export default CreateGroup
+  );
+};
+
+export default CreateGroup;

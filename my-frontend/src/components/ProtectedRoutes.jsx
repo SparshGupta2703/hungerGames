@@ -4,7 +4,7 @@ import { useAuthStore } from "../stores/AuthStore"
 const ProtectedRoutes=({children})=>{
   const {token}=useAuthStore()
   if(!token){
-    return<Navigate to='/login'/>
+    return<Navigate to='/'/>
   }
   return children;
   

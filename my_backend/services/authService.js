@@ -4,16 +4,39 @@ import jwt from 'jsonwebtoken'
     import User from "../models/User.js"
 
 
-export const signupUser =async ({name, email, password})=>{
-    const existingUser = await findUserByEmail(email)
-    if(existingUser) {throw new Error("User Already Exists")}
-    const hashedPassword = await bcrypt.hash(password,10)
+export const signupUser = async ({ name, email, password }) => {
 
-    const newUser =await createUser({name, email, password:hashedPassword})
-    return {userId: newUser._id, name:newUser.name,email:newUser.email}
-    
-    
-}
+    const existingUser = await findUserByEmail(email);
+
+    if (existingUser) {
+        throw new Error("User Already Exists");
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = await createUser({
+        name,
+        email,
+        password: hashedPassword
+    });
+
+    const token = jwt.sign(
+        { userId: newUser._id },
+        process.env.JWT_SECRET,
+        { expiresIn: "24h" }
+    );
+
+    return {
+        token,
+        user: {
+            userId: newUser._id,
+            userEmail: newUser.email,
+            userName: newUser.name,
+            userImg: newUser.profileImg,
+            userDesc: newUser.UserDesc
+        }
+    };
+};
 export const loginUser=async({email,password})=>{
 
     const user=await findUserByEmail(email)

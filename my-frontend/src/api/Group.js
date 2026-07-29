@@ -1,8 +1,9 @@
 import { useAuthStore } from "../stores/AuthStore";
 
-const {token}=useAuthStore.getState()
+
 
 export const createGroup=async(data)=>{
+  const {token}=useAuthStore.getState()
   const result = await fetch("http://localhost:5000/api/group/createGroup",{
     method:'POST',
     headers:{
@@ -15,6 +16,7 @@ export const createGroup=async(data)=>{
 }
 
 export const acceptInvite=async(data)=>{
+  const {token}=useAuthStore.getState()
   const result = await fetch("http://localhost:5000/api/group/accept",{
     method:'POST',
     headers:{
@@ -27,6 +29,7 @@ export const acceptInvite=async(data)=>{
 }
 
 export const rejectInvite=async(data)=>{
+  const {token}=useAuthStore.getState()
   const result = await fetch("http://localhost:5000/api/group/reject",{
     method:'POST',
     headers:{
@@ -38,6 +41,7 @@ export const rejectInvite=async(data)=>{
   return await result.json();
 }
 export const invite=async(data)=>{
+  const {token}=useAuthStore.getState()
   const result = await fetch("http://localhost:5000/api/group/invite",{
     method:'POST',
     headers:{
@@ -50,6 +54,7 @@ export const invite=async(data)=>{
 }
 // Get requests
 export const pendingInvites=async()=>{
+  const {token}=useAuthStore.getState()
   const result = await fetch("http://localhost:5000/api/group/pendingInvites",{
     method:'GET',
     headers:{
@@ -61,6 +66,7 @@ export const pendingInvites=async()=>{
   return await result.json();
 }
 export const eligibleMembers=async(groupId)=>{
+  const {token}=useAuthStore.getState()
   const result = await fetch(`http://localhost:5000/api/group/eligible/${groupId}`,{
     method:'GET',
     headers:{
@@ -72,6 +78,7 @@ export const eligibleMembers=async(groupId)=>{
   return await result.json();
 }
 export const findGroup=async()=>{
+  const {token}=useAuthStore.getState()
   const result = await fetch("http://localhost:5000/api/group/findGroup",{
     method:'GET',
     headers:{
@@ -84,7 +91,8 @@ export const findGroup=async()=>{
 }
 
 export const findJoinedGroups=async()=>{
-  const result = await fetch("http://localhost:5000/api/group/findJoinedgroups",{
+  const {token}=useAuthStore.getState()
+  const result = await fetch("http://localhost:5000/api/group/findJoinedGroups",{
     method:'GET',
     headers:{
         "Content-Type":"application/json",
@@ -97,6 +105,7 @@ export const findJoinedGroups=async()=>{
 // put request
 
 export const updateGroup=async(data)=>{
+  const {token}=useAuthStore.getState()
   const result = await fetch("http://localhost:5000/api/group/updateGroup",{
     method:'PUT',
     headers:{
@@ -105,5 +114,5 @@ export const updateGroup=async(data)=>{
     },
     body: JSON.stringify(data)
   })
-  return await result.json;
+  return await result.json();
 }
