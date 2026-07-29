@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../stores/AuthStore";
+import { LogOut, Sun, UserRound} from "lucide-react";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const Navbar = () => {
           to="/home"
           className="text-2xl font-bold text-primary hover:scale-105 transition-transform"
         >
-          🍽️ HungerGames
+          ㊞ HungerGames
         </Link>
       </div>
 
@@ -57,13 +58,13 @@ const Navbar = () => {
 
   <li>
     <Link to="/profile">
-      👤 Profile
+      <UserRound />Profile
     </Link>
   </li>
 
   <li>
-    <label className="flex justify-between items-center px-4 py-2 cursor-pointer">
-      <span>🌞 Light Theme</span>
+    <label className="flex justify-between items-center px-3 py-2 cursor-pointer">
+    <Sun/><span> Light Theme</span>
 
       <input
         type="checkbox"
@@ -85,7 +86,7 @@ const Navbar = () => {
       onClick={handleLogOut}
       className="text-error"
     >
-      🚪 Logout
+      <LogOut /> Logout
     </button>
   </li>
 

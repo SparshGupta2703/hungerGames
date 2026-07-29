@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { X } from "lucide-react";
+import { Broccoli, X } from "lucide-react";
 
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
@@ -62,14 +62,14 @@ const AuthModal = ({
 
           <div className="w-14 h-14 rounded-2xl bg-primary text-primary-content flex items-center justify-center text-xl font-black">
 
-            HG
+            <Broccoli/>
 
           </div>
 
           <h1 className="text-3xl font-black mt-5">
 
             {mode === "login"
-              ? "Welcome Back 👋"
+              ? "Welcome Back "
               : "Create your Account"}
 
           </h1>

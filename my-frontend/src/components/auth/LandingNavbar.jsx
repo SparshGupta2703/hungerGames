@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Broccoli, Menu, X } from "lucide-react";
 
 const LandingNavbar = ({ onLogin, onSignup }) => {
   const [scrolled, setScrolled] = useState(false);
@@ -43,7 +43,7 @@ const LandingNavbar = ({ onLogin, onSignup }) => {
           }
         >
           <div className="w-11 h-11 rounded-xl bg-primary text-primary-content flex items-center justify-center font-black text-lg">
-            HG
+           <Broccoli />
           </div>
 
           <div className="ml-3 text-left hidden sm:block">

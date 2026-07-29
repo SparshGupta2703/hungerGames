@@ -6,6 +6,8 @@ import {
   Brain,
   Camera,
   ChevronDown,
+  Astroid,
+  Bot,
 } from "lucide-react";
 
 import LandingNavbar from "../components/auth/LandingNavbar";
@@ -82,7 +84,7 @@ export default function Landing() {
 
             <div className="badge badge-primary badge-outline mb-6 p-4">
 
-              🚀 AI Powered Healthy Competition
+             <Bot /> AI Powered Healthy Competition
 
             </div>
 
@@ -234,7 +236,7 @@ export default function Landing() {
 
                       <div className="h-40 rounded-xl bg-base-300 mt-4 flex items-center justify-center">
 
-                        🍱
+                        <img className="h-40 rounded-xl bg-base-300 " src="https://freefoodphotos.com/imagelibrary/breakfast/slides/breakfast_egg.jpg" alt="Food Img" />
 
                       </div>
 
@@ -389,7 +391,7 @@ export default function Landing() {
 
           <h2 className="font-bold text-xl">
 
-            🍽 HungerGames
+            ㊞  HungerGames
 
           </h2>
 
@@ -401,7 +403,7 @@ export default function Landing() {
 
           <p className="text-xs opacity-40 mt-2">
 
-            Built with React, Tailwind, DaisyUI & AI
+            Built with React, Tailwind, DaisyUI & gemini AI
 
           </p>
 

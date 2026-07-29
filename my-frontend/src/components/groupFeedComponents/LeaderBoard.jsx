@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getLeaderboard } from "../../api/Post";
+import { Trophy } from "lucide-react";
 const Leaderboard = ({
     group,
     refreshLeaderboard
@@ -33,7 +34,7 @@ const Leaderboard = ({
         <div className="w-72 bg-base-200 p-4">
 
             <h1 className="text-2xl font-bold mb-4">
-                🏆 Leaderboard
+                <Trophy />Leaderboard
             </h1>
 
             {leaders.map((leader, index) => (
