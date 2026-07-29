@@ -4,7 +4,7 @@ export const getProfile = async () => {
   const { token } = useAuthStore.getState();
   
 
-  const result = await fetch("http://localhost:5000/api/profile/profile", {
+  const result = await fetch(`${import.meta.env.VITE_API_URL}/api/profile/profile`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -17,7 +17,7 @@ export const getProfile = async () => {
 export const updateProfile = async (formData) => {
   const { token } = useAuthStore.getState();
 
-  const result = await fetch("http://localhost:5000/api/profile/update", {
+  const result = await fetch(`${import.meta.env.VITE_API_URL}/api/profile/update`, {
     method: "PUT",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -32,7 +32,7 @@ export const changePassword = async (data) => {
   const { token } = useAuthStore.getState();
 
   const result = await fetch(
-    "http://localhost:5000/api/profile/change-password",
+    `${import.meta.env.VITE_API_URL}/api/profile/change-password`,
     {
       method: "PUT",
       headers: {

@@ -5,7 +5,7 @@ export const getGroupPosts = async (groupId) => {
     const { token } = useAuthStore.getState();
     console.log("Fetching group:", groupId);
     const response = await fetch(
-        `http://localhost:5000/api/posts/${groupId}`,
+        `${import.meta.env.VITE_API_URL}/api/posts/${groupId}`,
         {
             method: "GET",
             headers: {
@@ -20,7 +20,7 @@ export const getGroupPosts = async (groupId) => {
 export const createPost = async (formData) => {
     const { token } = useAuthStore.getState();
 
-    const response = await fetch("http://localhost:5000/api/posts/create", {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/posts/create`, {
         method: "POST",
         headers: {
             Authorization: `Bearer ${token}`
@@ -36,7 +36,7 @@ export const getLeaderboard = async(groupId)=>{
     const {token}=useAuthStore.getState();
 
     const response=await fetch(
-        `http://localhost:5000/api/posts/leaderboard/${groupId}`,
+        `${import.meta.env.VITE_API_URL}/api/posts/leaderboard/${groupId}`,
         {
             headers:{
                 Authorization:`Bearer ${token}`

@@ -4,7 +4,7 @@ import { useAuthStore } from "../stores/AuthStore";
 
 export const createGroup=async(data)=>{
   const {token}=useAuthStore.getState()
-  const result = await fetch("http://localhost:5000/api/group/createGroup",{
+  const result = await fetch(`${import.meta.env.VITE_API_URL}/api/group/createGroup`,{
     method:'POST',
     headers:{
         "Content-Type":"application/json",
@@ -17,7 +17,7 @@ export const createGroup=async(data)=>{
 
 export const acceptInvite=async(data)=>{
   const {token}=useAuthStore.getState()
-  const result = await fetch("http://localhost:5000/api/group/accept",{
+  const result = await fetch(`${import.meta.env.VITE_API_URL}/api/group/accept`,{
     method:'POST',
     headers:{
         "Content-Type":"application/json",
@@ -30,7 +30,7 @@ export const acceptInvite=async(data)=>{
 
 export const rejectInvite=async(data)=>{
   const {token}=useAuthStore.getState()
-  const result = await fetch("http://localhost:5000/api/group/reject",{
+  const result = await fetch(`${import.meta.env.VITE_API_URL}/api/group/reject`,{
     method:'POST',
     headers:{
         "Content-Type":"application/json",
@@ -42,7 +42,7 @@ export const rejectInvite=async(data)=>{
 }
 export const invite=async(data)=>{
   const {token}=useAuthStore.getState()
-  const result = await fetch("http://localhost:5000/api/group/invite",{
+  const result = await fetch(`${import.meta.env.VITE_API_URL}/api/group/invite`,{
     method:'POST',
     headers:{
         "Content-Type":"application/json",
@@ -55,7 +55,7 @@ export const invite=async(data)=>{
 // Get requests
 export const pendingInvites=async()=>{
   const {token}=useAuthStore.getState()
-  const result = await fetch("http://localhost:5000/api/group/pendingInvites",{
+  const result = await fetch(`${import.meta.env.VITE_API_URL}/api/group/pendingInvites`,{
     method:'GET',
     headers:{
         "Content-Type":"application/json",
@@ -67,7 +67,7 @@ export const pendingInvites=async()=>{
 }
 export const eligibleMembers=async(groupId)=>{
   const {token}=useAuthStore.getState()
-  const result = await fetch(`http://localhost:5000/api/group/eligible/${groupId}`,{
+  const result = await fetch(`${import.meta.env.VITE_API_URL}/api/group/eligible/${groupId}`,{
     method:'GET',
     headers:{
         "Content-Type":"application/json",
@@ -79,7 +79,7 @@ export const eligibleMembers=async(groupId)=>{
 }
 export const findGroup=async()=>{
   const {token}=useAuthStore.getState()
-  const result = await fetch("http://localhost:5000/api/group/findGroup",{
+  const result = await fetch(`${import.meta.env.VITE_API_URL}/api/group/findGroup`,{
     method:'GET',
     headers:{
         "Content-Type":"application/json",
@@ -92,7 +92,7 @@ export const findGroup=async()=>{
 
 export const findJoinedGroups=async()=>{
   const {token}=useAuthStore.getState()
-  const result = await fetch("http://localhost:5000/api/group/findJoinedGroups",{
+  const result = await fetch(`${import.meta.env.VITE_API_URL}/api/group/findJoinedGroups`,{
     method:'GET',
     headers:{
         "Content-Type":"application/json",
@@ -106,7 +106,7 @@ export const findJoinedGroups=async()=>{
 
 export const updateGroup=async(data)=>{
   const {token}=useAuthStore.getState()
-  const result = await fetch("http://localhost:5000/api/group/updateGroup",{
+  const result = await fetch(`${import.meta.env.VITE_API_URL}/api/group/updateGroup`,{
     method:'PUT',
     headers:{
         "Content-Type":"application/json",
