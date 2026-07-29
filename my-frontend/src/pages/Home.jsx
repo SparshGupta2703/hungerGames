@@ -52,9 +52,9 @@ const Home = () => {
 
           <button
             className="btn btn-outline"
-            onClick={() => navigate("/join-group")}
+            onClick={() => navigate("/group-feed")}
           >
-            Join Group
+             Group Feed
           </button>
         </div>
       </div>
