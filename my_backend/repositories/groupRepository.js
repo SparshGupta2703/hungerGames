@@ -27,6 +27,7 @@ export const findJoinedGroupsById = async (userId) => {
         members: userId
     })
     .populate("owner", "name")
-    .select("name owner");
+    .populate("members", "name")
+    .select("name owner")
 };
 
