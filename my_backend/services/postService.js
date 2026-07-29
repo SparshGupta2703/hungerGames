@@ -1,5 +1,5 @@
 import fs from "fs";
-import cloudinary from "../config/cloudinary.js";
+import cloudinary from "../config/Cloudinary.js";
 import ai from "../config/gemini.js";
 import {
     createPostRepo,
