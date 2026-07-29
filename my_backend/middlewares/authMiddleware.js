@@ -9,7 +9,7 @@ const protect=(req,res,next)=>{
     })
   }
   console.log(authHeader)
-  const token= authHeader.split('')[10]
+  const token= authHeader.split(' ')[1]
   
     console.log("token at middleware:",token)
     try{

@@ -5,27 +5,29 @@ import Home from "./pages/Home"
 import Signup from "./pages/Signup"
 import Login from "./pages/Login"
 import Profile from "./pages/Profile"
-import MemeLibrary from "./pages/MemeLibrary"
-import MemeToBeGen from "./pages/MemeToBeGen"
-import MemeGenerated from "./pages/MemeGenerated"
-import MyLibrary from "./pages/MyLibrary"
+import CreateGroup from "./pages/CreateGroup"
+import JoinGroup from "./pages/JoinGroup"
+import GroupFeed from "./pages/GroupFeed"
+import ProtectedRoutes from "./components/ProtectedRoutes"
+import PublicRoutes from "./components/PublicRoutes"
+
 
 const App=()=>{
     return (
         <>
         <Routes>
-            <Route path="/landing" element={<Landing/>}/>
+            <Route  path="/landing" element={<PublicRoutes><Landing/></PublicRoutes>}/>
             <Route path="/" element={<Layout/>}>
                 
-                <Route path="/Home" element={<Home/>}/>
-                <Route path="/Signup" element={<Signup/>}/>
-                <Route path="/Login" element={<Login/>}/>
-                <Route path="/Profile" element={<Profile/>}/>
-                <Route path="/MemeLibrary" element={<MemeLibrary/>}/>
-                <Route path="/MemeToBeGen" element={<MemeToBeGen/>}/>
-                <Route path="/MemeGenerated" element={<MemeGenerated/>}/>
-                <Route path="/MyLibrary" element={<MyLibrary/>}/>
-                {/* <Route path="/" element={<Layout/>}></Route> */}
+                <Route path="/Home" element={<ProtectedRoutes><Home/></ProtectedRoutes>}/>
+                <Route path="/Signup" element={<PublicRoutes><Signup/></PublicRoutes>}/>
+                <Route path="/Login" element={<PublicRoutes><Login/></PublicRoutes>}/>
+                <Route path="/Profile" element={<ProtectedRoutes><Profile/></ProtectedRoutes>}/>
+                <Route path="/CreateGroup" element={<ProtectedRoutes><CreateGroup/></ProtectedRoutes>}/>
+                <Route path="/JoinGroup" element={<ProtectedRoutes><JoinGroup/></ProtectedRoutes>}/>
+                <Route path="/GroupFeed" element={<ProtectedRoutes><GroupFeed/></ProtectedRoutes>}/>
+              
+               
             
             </Route>
 

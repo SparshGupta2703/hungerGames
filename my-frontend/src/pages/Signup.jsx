@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { signup } from "../api/Auth"
+import { useNavigate } from "react-router-dom"
 
 const Signup=()=>{
     const [formData , setFormdata]=useState({
@@ -15,10 +16,12 @@ const Signup=()=>{
     }
 
     const handleSubmit=(e)=>{
+        const Navigate=useNavigate
         e.preventDefault()
         try {
             setLoading(true)
             signup(formData)
+            Navigate('/login')
         } catch (error) {
             console.log('error while signup:',error.message)
         }

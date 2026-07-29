@@ -1,10 +1,11 @@
 import { useState } from "react"
 import { login } from "../api/Auth"
 import { useAuthStore } from "../stores/AuthStore"
+import {  useNavigate } from 'react-router-dom'
 
 
 const Login=()=>{
-    const {loginAuth} = useAuthStore()
+    const { loginAuth } = useAuthStore()
     const [loading,setLoading]=useState(false)
     const [formData,setFormData]=useState({
         email:'',
@@ -14,12 +15,15 @@ const Login=()=>{
     const handleChange=(e)=>{
        setFormData({...formData,[e.target.name]:e.target.value})
     }
-    const handleSubmit=(e)=>{
+    const handleSubmit=async(e)=>{
+        const Navigate=useNavigate
         e.preventDefault()
         try {
             setLoading(true)
-            const loginInfo=login(formData)
+            const loginInfo=await login(formData)
             loginAuth(loginInfo.user,loginInfo.token)
+
+            await Navigate('/home')
             
         }
         catch (error) {

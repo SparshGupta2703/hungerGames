@@ -6,7 +6,8 @@ import mongoose from 'mongoose'
 import'dotenv/config'
 import authRoutes from './routes/authRoutes.js'
 import profileRoutes from './routes/profileRoutes.js'
-
+import groupRoutes from './routes/groupRoutes.js'
+import postRoutes from './routes/postRoutes.js'
 
 
 
@@ -33,8 +34,10 @@ connectDB();
 
 app.use('/api/auth',authRoutes)
 app.use('/api/profile',profileRoutes)
+app.use('/api/group',groupRoutes)
+app.use('/api/posts',postRoutes)
 
 const PORT =process.env.PORT
 app.listen(PORT,()=>{
-    console.log(`server listning at port: ${PORT}`)
+    console.log(`server listening at port: ${PORT}`)
 })

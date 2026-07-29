@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import{ persist } from 'zustand/middleware'
 
+
 export const useAuthStore = create(
     persist(
     (set)=>({
@@ -8,7 +9,7 @@ export const useAuthStore = create(
     token:null,
     isAuthenticated: false,
 
-    login:(user,token)=> 
+    loginAuth:(user,token)=> 
      set((state)=>({
         user:user,
         token:token,
@@ -19,6 +20,10 @@ export const useAuthStore = create(
          user:null,
          token:null,
          isAuthenticated: false,
+    })),
+    updateUser:(updatedUser)=>set((state)=>({
+      user:updatedUser
+      
     }))
 })
    ,{name:'loginStorage'}

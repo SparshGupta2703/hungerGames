@@ -1,11 +1,12 @@
 import express from 'express'
-import { getProfile, updateProfile } from '../controller/profileController'
-import { changePassword } from '../services/profileService'
-import protect from '../middlewares/authMiddleware'
+import { getProfile, updatePassword, updateProfile } from '../controller/profileController.js'
+
+import protect from '../middlewares/authMiddleware.js'
 
 const router =express.Router()
 
 router.get('/profile',protect,getProfile)
-router.get('/update',protect,updateProfile)
-router.get('/change-password',protect,changePassword)
+router.put('/update',protect,updateProfile)
+router.put('/change-password',protect,updatePassword)
+
 export default router

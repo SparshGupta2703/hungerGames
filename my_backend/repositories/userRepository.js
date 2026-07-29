@@ -7,10 +7,10 @@ export const createUser = async(userData) => {
     return await User.create(userData)
 }
 export const findUserById= async(id)=>{
-    return await User.findOne(id).select('-password')
+    return await User.findById(id).select('-password')
 }
 export const findUserByIdWithPassword=async(userId)=>{
-        return await User.findOne(userId)
+        return await User.findById(userId)
 }
 export const findUserByIdAndUpdate=async(userId,updates)=>{
     return await User.findByIdAndUpdate(userId,updates,{new:true}).select('-password')

@@ -29,7 +29,9 @@ export const loginUser=async({email,password})=>{
         return{token ,user:{
             userId:user._id,
             userEmail:user.email,
-            UserName:user.name
+            userName:user.name,
+            userImg:user.profileImg,
+            userDesc:user.UserDesc
         }}
 
     

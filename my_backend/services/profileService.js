@@ -1,4 +1,4 @@
-import { findUserById, findUserByIdAndUpdate, findUserByIdWithPassword } from "../repositories/userRepository"
+import { findUserById, findUserByIdAndUpdate, findUserByIdWithPassword } from "../repositories/userRepository.js"
 import bcrypt,{hash} from 'bcrypt'
 export const getUserProfile =async(userId)=>{
     const user=await findUserById(userId)
@@ -12,13 +12,11 @@ export const getUserProfile =async(userId)=>{
 }
 export const updateUserProfile=async(userId,updates)=>{
     const allowedUpdates={}
-    if(updates.name) allowedUpdates.name=updates.name
-    if(updates.logo) allowedUpdates.logo= updates.logo
-    if(updates.address) allowedUpdates.bio= updates.address
-    if(updates.businessName) allowedUpdates.businessName=updates.businessName
-    if(updates.businessDesc) allowedUpdates.businessDesc=updates.businessDesc
+    if(updates.userName) allowedUpdates.name=updates.name
+    if(updates.userImg) allowedUpdates.userImg= updates.userImg
+    if(updates.userDesc) allowedUpdates.userDesc=updates.userDesc
 
-    const updateUser = await findUserByIdAndUpdate(userId,allowedUpdates)
+    const updateUser = await findUserByIdAndUpdate(userId,allowedUpdates,{new:true})
 
     if(!updateUser){
         throw new Error('user not found')
@@ -38,3 +36,5 @@ export const changePassword =async(userId ,oldPassword ,newPassword)=>{
     const updateUser =await findUserByIdAndUpdate(userId,{password:hashedPassword})
     return updateUser
 }
+
+
