@@ -1,5 +1,5 @@
 import { changePassword, getUserProfile, updateUserProfile } from "../services/profileService.js"
-import cloudinary from "../config/cloudinary.js";
+import cloudinary from "../config/Cloudinary.js";
 
 
 export const getProfile=async(req,res)=>{
