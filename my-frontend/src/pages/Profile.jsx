@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuthStore } from "../stores/AuthStore";
-import { updateProfile } from "../api/Profile";
+import { getProfile, updateProfile } from "../api/Profile";
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -17,11 +17,22 @@ const Profile = () => {
 
   const { user, updateUser } = useAuthStore();
 
-  useEffect(() => {
-    if (user) {
-      setUserData(user);
+ useEffect(() => {
+  const fetchProfile = async () => {
+    try {
+      const response = await getProfile();
+
+      if (response.success) {
+        updateUser(response.user);      // Update Zustand
+        setUserData(response.user);     // Update local state
+      }
+    } catch (err) {
+      console.log(err);
     }
-  }, [user]);
+  };
+
+  fetchProfile();
+}, []);
 
   const handleChange = (e) => {
     setUserData({
