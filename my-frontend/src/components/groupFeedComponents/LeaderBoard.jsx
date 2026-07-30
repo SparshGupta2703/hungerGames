@@ -31,7 +31,7 @@ const Leaderboard = ({
     if (!group) return null;
 
     return (
-        <div className="w-72 bg-base-200 p-4">
+        <div className=" w-1/4 bg-base-200 p-4">
 
             <h1 className="text-2xl font-bold mb-4">
                 <Trophy />Leaderboard

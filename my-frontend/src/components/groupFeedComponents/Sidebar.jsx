@@ -9,7 +9,7 @@ const Sidebar = ({
   onReject,
 }) => {
   return (
-    <aside className="w-80 h-screen bg-base-200 border-r border-base-300 overflow-y-auto">
+    <aside className="w-1/4 h-screen bg-base-200 border-r border-base-300 overflow-y-auto">
 
       <div className="p-5 border-b border-base-300">
         <h1 className="text-2xl font-bold">Groups</h1>
@@ -48,7 +48,7 @@ const Sidebar = ({
 
       {/* Pending Invites */}
 
-      <div className="p-4 border-t border-base-300">
+      <div className="p-4 w-1/4 border-t border-base-300">
 
         <h2 className="text-lg font-semibold mb-3">
           Pending Invites

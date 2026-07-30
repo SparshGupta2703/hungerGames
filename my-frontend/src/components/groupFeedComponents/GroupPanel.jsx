@@ -49,7 +49,7 @@ const GroupPanel = ({ group, setRefreshLeaderboard }) => {
   }
 
   return (
-    <div className="flex-1 overflow-y-auto p-6">
+    <div className="flex-1 overflow-y-auto p-6 w-2/4">
 
       {/* Header */}
 
